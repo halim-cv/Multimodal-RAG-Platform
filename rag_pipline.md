@@ -328,20 +328,7 @@ rag-pipeline/
 
 ## 🚀 Quick Start
 
-### Installation
 
-```bash
-# Clone repository
-git clone https://github.com/yourusername/rag-pipeline.git
-cd rag-pipeline
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
 
 ### Basic Usage
 
