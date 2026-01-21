@@ -1,17 +1,10 @@
 """
-OCR functionality (optional) using Tesseract or EasyOCR
+OCR functionality (EasyOCR only)
 """
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 import logging
-
-try:
-    import pytesseract
-    from PIL import Image
-    HAS_TESSERACT = True
-except ImportError:
-    HAS_TESSERACT = False
-    logging.warning("pytesseract not available")
+from PIL import Image, ImageDraw
 
 try:
     import easyocr
@@ -24,14 +17,51 @@ import config
 
 logger = logging.getLogger(__name__)
 
+CONFIDENCE_THRESHOLD = 0.4
 
-def run_ocr(image_path: Path, engine: str = None) -> Dict[str, Any]:
+
+def draw_ocr_boxes(image_path: Path, boxes: List[Dict[str, Any]], output_path: Path) -> Path:
     """
-    Run OCR on an image
+    Draw bounding boxes on image
+    
+    Args:
+        image_path: Path to source image
+        boxes: List of box dicts (must have 'bbox' with x,y,width,height)
+        output_path: Path to save annotated image
+        
+    Returns:
+        output_path
+    """
+    try:
+        img = Image.open(image_path)
+        draw = ImageDraw.Draw(img)
+        
+        for item in boxes:
+            bbox = item['bbox']
+            # Draw rectangle
+            rect = [
+                bbox['x'], 
+                bbox['y'], 
+                bbox['x'] + bbox['width'], 
+                bbox['y'] + bbox['height']
+            ]
+            draw.rectangle(rect, outline="red", width=2)
+            
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(output_path)
+        logger.info(f"Saved annotated image: {output_path.name}")
+        return output_path
+    except Exception as e:
+        logger.error(f"Failed to draw boxes: {e}")
+        return None
+
+
+def run_ocr(image_path: Path) -> Dict[str, Any]:
+    """
+    Run OCR on an image (EasyOCR only)
     
     Args:
         image_path: Path to image
-        engine: OCR engine to use ('tesseract' or 'easyocr'), defaults to config
     
     Returns:
         Dictionary with 'text' and 'boxes' (list of {text, bbox})
@@ -40,69 +70,8 @@ def run_ocr(image_path: Path, engine: str = None) -> Dict[str, Any]:
         logger.debug("OCR disabled in config")
         return {"text": None, "boxes": []}
     
-    if engine is None:
-        engine = config.OCR_ENGINE
-    
-    logger.info(f"Running OCR on {image_path.name} with {engine}")
-    
-    if engine == "tesseract":
-        return run_tesseract_ocr(image_path)
-    elif engine == "easyocr":
-        return run_easyocr_ocr(image_path)
-    else:
-        logger.error(f"Unknown OCR engine: {engine}")
-        return {"text": None, "boxes": []}
-
-
-def run_tesseract_ocr(image_path: Path) -> Dict[str, Any]:
-    """
-    Run Tesseract OCR
-    
-    Returns:
-        Dictionary with 'text' and 'boxes'
-    """
-    if not HAS_TESSERACT:
-        logger.error("Tesseract not available")
-        return {"text": None, "boxes": []}
-    
-    try:
-        img = Image.open(image_path)
-        
-        # Extract text
-        text = pytesseract.image_to_string(img)
-        
-        # Extract bounding boxes
-        boxes = []
-        try:
-            data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-            n_boxes = len(data['text'])
-            
-            for i in range(n_boxes):
-                if int(data['conf'][i]) > 0:  # confidence threshold
-                    bbox = {
-                        'x': data['left'][i],
-                        'y': data['top'][i],
-                        'width': data['width'][i],
-                        'height': data['height'][i]
-                    }
-                    boxes.append({
-                        'text': data['text'][i],
-                        'bbox': bbox,
-                        'confidence': data['conf'][i]
-                    })
-        except Exception as e:
-            logger.warning(f"Failed to extract bounding boxes: {e}")
-        
-        logger.info(f"Tesseract OCR extracted {len(text)} chars, {len(boxes)} boxes")
-        
-        return {
-            "text": text.strip() if text else None,
-            "boxes": boxes
-        }
-        
-    except Exception as e:
-        logger.error(f"Tesseract OCR failed for {image_path.name}: {e}")
-        return {"text": None, "boxes": []}
+    logger.info(f"Running OCR on {image_path.name} with EasyOCR (GPU)")
+    return run_easyocr_ocr(image_path)
 
 
 def run_easyocr_ocr(image_path: Path) -> Dict[str, Any]:
@@ -118,7 +87,7 @@ def run_easyocr_ocr(image_path: Path) -> Dict[str, Any]:
     
     try:
         # Initialize reader (cached globally in production)
-        reader = easyocr.Reader(['en'], gpu=False)
+        reader = easyocr.Reader(['en'], gpu=True)
         
         # Read text
         results = reader.readtext(str(image_path))
@@ -128,6 +97,10 @@ def run_easyocr_ocr(image_path: Path) -> Dict[str, Any]:
         boxes = []
         
         for (bbox_coords, text, confidence) in results:
+            # Check confidence
+            if float(confidence) < CONFIDENCE_THRESHOLD:
+                continue
+
             text_parts.append(text)
             
             # Convert bbox format and types (numpy to native)
