@@ -1,4 +1,0 @@
-faiss-cpu
-numpy
-sentence-transformers
-hf_xet
