@@ -1,0 +1,196 @@
+chapter 6 : Interaction between agents 
+I. Introduction 
+A multi-agent system (MAS) is distinguished from a collection of independent agents by 
+the fact that the agents interact. An interaction is a dynamic relationship between two or more 
+agents through a set of reciprocal actions—“mutual actions.” 
+Indeed, the value of multi-agent systems lies in the notion of collective action (collective 
+behaviors) and in their ability to link the individual to the collective. The “collective” design 
+emphasizes: 
+the structures of interaction (cooperation, negotiation, coordination of actions, conflicts, 
+etc.) 
+and the organizational structures. 
+II. Interaction
+II.1. Objective
+Agents interact in order to collectively accomplish a task or jointly achieve (contribute to 
+fulfilling) a goal or the objective of the overall system. An agent that contributes to the 
+satisfaction of the system’s global goal: 
+will spend part of its time cooperating or coordinating with other agents, 
+while still pursuing an individual objective. 
+II.2. Dimensions 
+Indeed, the system can progress toward one of its objectives and exhibit intelligent 
+behavior regardless of the degree of complexity of the agents that compose it. The interactions 
+between agents in a MAS are motivated by their interdependence along three dimensions: 
+1. their goals may be compatible or not, 
+2. agents may desire resources that others possess, 
+1 
+3. agent X may have a capability that agent Y needs to accomplish one of its action plans. 
+II.3. Typology of Interactions 
+In a MAS, direct actions are forbidden. An agent cannot act directly on the state or 
+behavior of another agent or any element in its environment (object, other agent, human). 
+Interaction between agents must occur through the sending of an ACL message → a request 
+(formal or linguistic). 
+The agent sends a request to an interlocutor, who is either another agent or a human in its 
+environment (not an object!). The interlocutor interprets this request and may or may not satisfy 
+it, depending on their own subjectivity (physical and mental state). 
+2 
+An interaction situation is a set of behaviors resulting from a group of agents who must 
+act in order to satisfy their objectives, while taking into account constraints coming from the 
+more or less limited resources available to them and from their individual skills. 
+Example: building a house
+the set of behaviors of the agents (the workers, the architect, the owner, the project 
+manager) 
+characterized by their objectives (the realization of the planned house according to the 
+different viewpoints of the agents) 
+and their skills (the expertise of the architect and the various trades) 
+while considering the available resources (construction materials, finances, tools, 
+buildable space, time). 
+II.3. Types of Interactions 
+A typology of interaction situations is defined according to the three main components of 
+interaction: the nature of the goals, access to resources, and the agents’ competencies 
+3 
+Indifference: Independence of agents: no interactions occur between the agents because they 
+have: 
+compatible goals (in other words, their goals do not conflict), 
+sufficient resources, 
+the required capabilities. 
+III. Cooperation
+The compatibility of objectives will lead to cooperation whenever resources or skills are 
+insufficient. Therefore, an agent must cooperate with other agents (to solve problems) because: 
+it is not capable of accomplishing the task alone (cannot solve it individually), 
+or others are more efficient. 
+In a simplified manner, the problem of cooperation can be reduced to determining… 
+4 
+III.1. Perspectives on Cooperation 
+There are two perspectives on cooperation: 
+1. The intentional attitudes of agents who decide to work together. In this case, agents 
+engage in an action after identifying and adopting a common goal considered an essential 
+element of social activity. 
+Example:
+o Creating an association in which members identify a common objective and 
+commit to participating in a shared task. 
+o Robots that help each other carry weight. 
+2. The observer’s perspective, who interprets behaviors afterwards, qualifying them as 
+cooperative or not based on social (or physical) criteria: 
+o interdependence of actions, 
+o number of communications exchanged. 
+Example:
+o Construction of a termite nest, 
+o the behavior of ants—where the observer notes certain phenomena used as 
+indicators of cooperative activity. 
+III.2. Objectives of Cooperation 
+Four generic aims for establishing cooperation in a group of agents: 
+increase the task completion rate through parallelism and positive interactions; 
+increase the number of achievable tasks through the sharing of resources (information, 
+expertise, physical devices, etc.); 
+increase the chances of completing tasks by duplicating them and possibly using different 
+modes of execution; 
+reduce interference between tasks by avoiding negative interactions. 
+III.3. Forms of Cooperation 
+Three forms of cooperation can be distinguished: 
+Confrontational cooperation: a task is performed by several agents with different 
+specialties working concurrently on the same set of data, with the result obtained through 
+fusion. 
+Augmentative cooperation: a task is divided among similar agents working 
+concurrently on disjoint subsets of data, with the solution obtained as a set of local 
+solutions. 
+5 
+Integrative cooperation: a task is decomposed into sub-tasks accomplished by agents 
+with different specialties working in a coordinated manner, with the solution obtained 
+after all sub-tasks are completed. 
+Example: airplanes flying in the same airspace
+They have different perceptions of their surrounding environment, captured by their 
+respective sensors. 
+Only by combining these different perceptions can they obtain a global view 
+allowing them to resolve potential conflicts that may arise between them. 
+III.4. Methods of Cooperation 
+Studying the conditions of cooperation reveals the means that can be used to achieve it. 
+These means or methods of cooperation are six in number: 
+grouping and multiplication, 
+communication, 
+specialization, 
+collaboration through sharing tasks and resources, 
+coordination of actions, 
+conflict resolution through arbitration and negotiation. 
+When agents carry out their actions, some actions executed simultaneously may either 
+create conflicts or improve performance. Two types of relationships between agents’ actions can 
+be distinguished: 
+Negative conflicting relationships: hinder or prevent several actions from occurring 
+simultaneously. 
+Positive synergistic relationships: enhance actions by allowing them to benefit from 
+each other. 
+Therefore, cooperation among agents—aiming to produce a coherent global behavior of 
+the MAS—requires sophisticated coordination mechanisms to avoid potential conflicts. 
+6 
+IV. Coordination 
+Classic example: the pursuit problem (prey/predators)
+Objective: capture a prey by surrounding it. 
+What happens with 6 predators and 2 preys? (or more prey and more predators?) 
+→ possible deadlocks... 
+Problem: How can the actions of all these predators be coordinated? 
+Early research in distributed artificial intelligence focused mainly on groups of agents 
+pursuing common goals. In a multi-agent environment, new problems arise due to agents’ partial 
+perception, the pursuit of local objectives, and the interleaving of agents’ activities. 
+Goal: avoid chaotic behavior and maintain overall coherence. 
+To achieve coherence, agents must: 
+be able to recognize interactions and interdependencies between different sub-goals in 
+order to either ignore or resolve them; 
+take into account: 
+o constraints imposed by other agents’ actions on the agent’s choice of actions; 
+o constraints imposed by the agent’s commitments toward others on its own action 
+choices; 
+o the unpredictable evolution of the environment due to agents not modeled; 
+avoid conflicting situations (antagonism, deadlock, starvation, etc.) that may result from 
+poor handling of shared resources. 
+Thus, interactions between cooperating agents require coordination. 
+7 
+IV.1. Cooperation vs. Coordination 
+Cooperation focuses on how to distribute work among several agents, whether using 
+centralized or distributed techniques. 
+Action coordination analyzes how the actions performed by different agents are 
+organized: 
+organizing agents’ behaviors in time and space so that the group’s overall action is 
+improved: 
+by increasing performance (overall coherence), 
+or by reducing conflicts (resolving potential conflicts). 
+Thus, coordination allows each agent to anticipate the future actions of others. 
+From the perspective of a MAS designer, coordination must answer the following 
+questions: 
+With which agents should a given agent coordinate its actions? 
+(The solution is often provided by the problem itself — e.g., air traffic control.) 
+When and where should these coordination actions be carried out? 
+How to detect and manage interactions between actions (conflicts and reinforcements)? 
+How to maintain coordination? By relying on: 
+- mutual dependencies between actions: making the best use of agents’ degrees of 
+freedom, 
+- relationships between actions: analyzing positive and negative relationships. 
+8 
+IV.2. Types of Coordination 
+Coordination by synchronization (through mutual adjustments). 
+Example: synchronization of movements (cyclist’s legs), synchronization of access to a 
+resource. 
+Coordination by planning (from centralized to distributed): 
+1. centralized planning for multiple agents, 
+2. centralized coordination for partial plans, 
+3. distributed coordination for partial plans. 
+Coordination by regulation (standardization): e.g., through codes, laws, or social 
+conventions (traffic code). 
+Reactive coordination: stimulus–response style (reactive agents). 
+IV.2.1. Coordination by Centralized Planning 
+A central system (or agent) plans and distributes plans to the agents, solving 
+synchronization and resource allocation problems. Planning for a single agent merely builds a 
+sequence of actions considering only its goals, capabilities, and environmental constraints. 
+A central planner has a global view of the entire system and handles the identification of 
+interactions between the agents’ various activities and the resolution of all conflicts before plan 
+execution. 
+Thus, the other agents are simply executors. 
+Centralized planning coordination consists of three steps: 
+1. a general partial plan, expressed as an acyclic graph, 
+2. branches that may run in parallel, with synchronization points where they join, 
+3. allocation of tasks to executors. 
+9 
+IV.2.2. Distributed Coordination for Partial Plans 
+several planner–executors who can communicate their plans to one another, 
+coordination through the exchange of partial plans until the goals are satisfied, 
+both planning and plan coordination are distributed. 
+IV.3. Characteristics of coordination
+10 

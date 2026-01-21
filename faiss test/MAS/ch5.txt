@@ -1,0 +1,346 @@
+Chapter 5: Communication between agents 
+I. Introduction
+The essential point of a multi-agent system lies in the collective of agents that constitute it: 
+society of agents  social behavior  inter-agent communication, why? 
+agents must communicate to cooperate and coordinate their actions and achieve their 
+goals 
+by communicating, they can influence other Agents to perform an action or change the 
+data of the internal state of other Agents 
+For example: if I say "it's raining in Algiers" I try to influence you (change your internal 
+state (beliefs)), 
+communication can be established at different levels: 
+1) simple requests with a simple and concise set of possible answers; 
+2) more complex communication in an appropriate protocol for example for a 
+conversation in a negotiation 
+II. Society 
+II.1. Modes of Organization 
+Organization: The way in which the group is structured in order to work (no unified definition). 
+This organization is described by: 
+The interactions between agents and the various forms of links that exist between two or 
+a small number of agents. 
+The set of components, roles, and activities of the agents, their responsibilities, their 
+resource needs (processors), and their communication or coordination links within 
+organizational structures. 
+The dynamics of a large number of agents, as well as the overall structure of the system 
+and its evolution. 
+The organization of agents implies social behaviors that require a means of communication 
+allowing agents to exchange information or send requests. 
+1 
+III. Agent Communication
+III.1. Problem: 
+Communications, in MAS as in humans, are the basis of interactions and organization. A 
+communication model is summarized by the following questions addressed: 
+who communicates what and to whom (Modality of communication)? 
+sender and recipient(s) of the message (the agents it involves, human or artificial). 
+The choice of interlocutor essentially depends on the agent's acquaintances (knowledge 
+that the agent has about other agents). 
+What to communicate? need to communicate their intentions, goals, results and status 
+What to communicate? the content of the messages (exchange of signals, requests, plans, 
+offers, knowledge), their type and, their form 
+When do agents communicate? 
+- identification of situations where they need to interact with other agents to 
+achieve their local or global goals. 
+- what provokes or motivates it (commitment, explicit intentionality or interaction 
+triggered by a perception), 
+- what it induces directly (modification of beliefs, appearance of conflicts, 
+problems of coherence) or indirectly in terms of reaction to a perception through 
+the environment. 
+How do agents communicate? 
+- resources and protocol used 
+- their channel (direct by sending messages or indirect by the environment): mode 
+of communication: direct or indirect 
+Why do agents communicate? : To coordinate their activities, to cooperate, collaborate, 
+negotiate: the implementation of the interaction, 
+III.2. Modes of communication 
+There are two modes of communication: direct by sending messages or indirect by the 
+environment 
+III.2.1. Indirect (or implicit) communications 
+Agents leave traces (signals) of their presence or action that are perceived by other agents. The 
+environment propagates (and possibly distorts) the signals triggered by the performance of an 
+action. This mode is characterized by: 
+2 
+- limited exchanges 
+- not having to precisely determine the role of each individual in the collective treatment 
+III.2.1. Direct (or explicit) communications 
+The direct exchange is carried out voluntarily in the direction of an individual or group of 
+individuals. There are two types of direct communication: communication by sharing 
+information and communication by sending messages. 
+a) communication by information sharing 
+Agents read and drop information on a common data area (eg: blackboard). They 
+communicate via a shared data structure where we find the knowledge relating to the 
+resolution, which evolves during the execution process. 
+data structure: shared and possibly partitioned 
+blackboard model: sources of knowledge + central board + control component 
+KSAR = (module, list of hypotheses) and Agenda = list of KSAR: Knowledge 
+Source Activation Record. 
+1. modules create KSAR in calendar 
+2. control chooses a KSAR 
+3. the chosen KSAR is triggered and a combination of actions is performed 
+on the board 
+3 
+The example generally taken is that of the construction of a puzzle. Schoolchildren are 
+not allowed to communicate with each other, but observe the pieces already placed on the board. 
+As soon as a student realizes that he can make a contribution, that is to say contribute to solving 
+the problem, he raises his hand. The teacher (who ensures the control) chooses among the raised 
+hands who must go and put his piece on the board. The sum of the individual contributions 
+finally completes the puzzle. 
+In blackboard terminology, students are called knowledge sources (denoted KS for 
+Knowledge Source). Each KS has the right to create and modify the data present on the 
+blackboard. When a KS can be activated (ie its activation conditions are true), a KSAR 
+corresponding to this possibility of activation is created and placed in the schedule of the table. 
+The control then consists in choosing among the KSARs of the agenda which one will be 
+activated. 
+The following figure illustrates how a blackboard works. It is a sequential operation -- 
+there is only one KS active at a given moment --, and opportunistic -- we do not know in 
+advance which KS will be active at a given moment. 
+The operating cycle of a blackboard is quite simple in principle: 
+[(1)] According to the elements present in the blackboard, if a KS can be activated, the 
+controller creates a corresponding KSAR in the agenda. This step is repeated as many 
+times as there is KS whose activation conditions are fulfilled. 
+4 
+[(2)] The KSARs of the agenda are ordered according to different strategies and 
+according to the type of control. The KSAR corresponding the most to the selection 
+strategy is finally chosen. 
+[(3)] The KS of the KSAR chosen in the previous step is triggered. This generally results 
+in modifying the blackboard by adding new elements, destroying certain elements, or 
+modifying elements already present. The cycle resumes at the first step and operation 
+continues as long as there are KSARs in the schedule. 
+- Advantages of blackboards are: little information loss, very fast error correction. 
+- Disadvantages of blackboards: risk of accumulation of useless data, vocabulary constraints, 
+depending on the field of application. 
+b) communication by sending a message 
+Agents send their messages directly and explicitly to the recipient. There are two modes: 
+1. point-to-point communication (telephone): the agent sending the message knows and 
+specifies the address of the recipient agent(s). This type of communication is generally 
+the most used by cognitive agents. It will be noted as follows: (id) <sender>: <recipient> 
+<< <state> 
+2. communication by broadcast: the message is sent to all agents in the system. This type 
+of transmission is widely used in dynamic systems as well as reactive agent systems. In 
+fact, this generally assumes messaging: a specialized agent manages as many queues as 
+there are recipients, each agent can process the first message in its queue. 
+5 
+Needs related to an exchange of messages: Agents must know: 
+with which other agents to communicate 
+how to establish a communication channel with them 
+which protocol used for the dialogue 
+what language used to exchange knowledge 
+which terms of the language used to guarantee that the other agent will interpret the 
+expressions in the same sense 
+how to deal with unnecessary information and possible erroneous data that appear from 
+different views of the world 
+Benefits 
+freedom of expression 
+communication flexibility 
+parallelism 
+Disadvantages 
+loss of information 
+correction of difficult errors 
+communications saturation 
+Theoretical elements for sending a message 
+Communication by message exchange is based on: 
+- communication theory (resulting from research in Telecommunications by Shannon and 
+Weaver (Shannon and Weaver 1948)) hence the need for communication languages and 
+protocols 
+- the theory of speech acts  Illocutionary acts 
+To communicate, an agent must read/understand/manipulate messages. It exchanges 
+messages based on the classical model of communication theory. In fact, the semantics of the 
+communication is shared by the sender and the receiver: 
+- Assumes a common communication language 
+- Problems of the definition of standards. 
+6 
+There are two basic types of messages: assertions and queries. 
+- Messages with a fixed meaning  intentional communications 
+- The notion of communication serves from the simple transmission of information to more 
+elaborate forms, such as: speech acts and conversational structure which emphasize 
+the notion of interaction in communications. 
+III.3. Communication between Agents Vs communication between Objects 
+- Semantics of communication between objects: dependent on the recipient of the message 
+(concept of polymorphism) 
+- Semantics of an agent communication language (ACL): must not depend on the 
+participating agents 
+- More powerful communication between agents: allows complex data, logical 
+information, commands, scripts or even complete programs (case of mobile agents) 
+IV. speech act 
+IV.1. context of the philosophy of language 
+Communication between agents uses human verbal communication as a model of 
+communication, inspired by the theory of speech acts. 
+Speech act theory (Philosophers Austin and J.-R.Searle) is a major theory in the philosophy of 
+language that is of great interest for the analysis of point-to-point symbolic communications in 
+multi-systems. -agents. In philosophy of language: meaning representation of a state of affairs 
+(true/false). Sentences are not only true or false: an utterance aims to accomplish an action which 
+consists in modifying the state of the world: To speak is to act  a speech act. 
+Actions: requests, suggestions, commitments and responses 
+7 
+In the context of MAS, the notion of Speech Act allows an agent A to communicate to an agent 
+B not only a proposition P but also the Intention that A takes about P and B. Therefore, speech 
+acts designate the set of intentional actions performed during a communication. It induces an 
+action and produces effects on the recipient in order to transform his mental state. 
+Speech act theory treats communication as an action (carried out by agents like other actions, 
+with the aim of pursuing intentions) "To communicate is to act" 
+“Communication: an intentional action characterized by a type and several components” (Austin 
+62 and Searle 69) IV.2. 
+Types of speech acts 
+Speech acts can be classified as follows: 
+- informative: assert a fact - Ex: "Ali is 4 years old" 
+- directives: two types - exercises: ask to do something 
+- interrogatives: ask a question 
+- promissive: commitment to perform an act - Ex: I will teach tomorrow 
+- expressive: expressing a state - Ex: I am happy 
+- declarative: accomplish an act by _enunciation - Ex: I practice sport 
+IV.3. Components of acts 
+According to Austin and Searle, in stating any sentence, comprises three action elements (three 
+aspects): 
+1- locutionary: generation of statements by emission of sound waves or by writing 
+characters (production of a sentence in a given language). These acts are satisfied when 
+the utterance is correctly formulated. 
+2- illocutionary: refers to the type of action (expressed intention) carried out on the listener 
+during the formulation of the statement: inform, request to do, request for information, 
+answers, promise, proposal, offer. .. Ex: affirm ("it's raining!") or question ("it's 
+raining?") 
+3- perlocutionary: obtained effects that illocutionary acts can have on the state of the 
+addressee (indirect consequences referred to by locution) 
+Example: "Give me a key of 12!" 
+- locutionary: sentence: "Give me a key of 12!" 
+- illocution: the intention of the speaker's message as a request or an order; 
+8 
+- perlocution: the recipient aims to find it in the toolbox. 
+IV.4. Illocutionary act
+In communication, the intention of the message is not always easily identified. Speech act theory 
+uses the term performative to identify the illocutionary force of utterance. In general, a speech 
+act can be seen as having two components: 
+ - A performative verb: (for example to ask, to inform, to promise, . . . 
+- Observational content (propositional content) 
+“The illocutionary function of a speech act is, in the linguistic theory of John Langshaw Austin, 
+the message conveyed by an utterance beyond its immediate meaning, that which its locutionary 
+dimension translates. For example, the fact, at the table, of pronouncing the phrase "Is there any 
+salt?" does not have the function of informing oneself about the (obvious) presence of salt in the 
+house (locutionary content of the utterance) but rather expresses that one would like to salt one's 
+dish (illocutionary function) and generally results in the fact that one of the guests passes you the 
+salt shaker, which is the perlocutionary function of the statement. » 
+Example 
+- "the door is closed" 
+- performative = to request 
+- content = "the door is closed" 
+- speech act = “please close the door” 
+- performative = inform 
+- content = "the door is closed" 
+- speech act = “the door is closed! » 
+- performative = to ask 
+- content = "the door is closed" 
+- speech act = "is the door closed?" » 
+9 
+V. Communication languages 
+V.1. Constitution and characteristics of language 
+To communicate between heterogeneous and autonomous agents requires a shared 
+understanding. So we have to provide a common language. Communication languages between 
+agents ACL (Agent Communication Language) based on speech acts. They essentially focus on 
+how to exhaustively describe acts of communication from a syntactic and semantic point of view 
+and supporting a knowledge representation language. The language has the following aspects: 
+- a syntax: how the symbols are structured. 
+- semantics: what the symbol means (meaning of these symbols) 
+- pragmatics specifying: how symbols are interpreted (used) and how communication and 
+implementation (how to identify the recipient, initiate and maintain an exchange). 
+An Agent-to-Agent Communication Language must be designed as a high-level language 
+that ensures: 
+- The format used for the knowledge exchange is given by a content language, independent 
+of the ACL language (e.g. KIF, FIPA-SL, FIPA-CCL)  syntax 
+- The common vocabulary concerns the definitions specified in an ontology  semantic. 
+So agents must agree on the content language and the ontology to use 
+V.2. Structure of a message 
+Any multi-agent language is represented by a data structure (message) comprising the 
+following fields: 
+Transmitter 
+Receiver 
+Language used: language in which the real message is written 
+Content of the message: the real message that is the subject of the communication 
+Ontology: the vocabulary in a given domain so that agents can understand each other 
+10 
+Set of definitions concerning the message 
+V.3. Technical aspects of implementing an ACL 
+The technical aspects of implementing an ACL concern the existence, in the 
+communication system between agents, of the mechanisms below: 
+protocols for the transport layer used (TCP/IP, UDTP, SMTP, IIOP, HTTP) 
+high-level protocols (e.g. contract-net, licitations ('auctions'), registration of names) 
+infrastructure services (broker, facilitators, loggers etc.) 
+a communication control mechanism within the agents. Many communication languages 
+between agents (ACL) have been developed: KQML (93, 97), FIPA-ACL (97, 99, 
+2000). 
+V.4. Communication language KQML "Knowledge Query and Manipulation Language"
+KQML is a high-level, message-oriented communication language and protocol designed 
+for the exchange of information (knowledge) between software agents. It was proposed in 1993 
+by the DARPA-KSE (Knowledge Sharing Effort) consortium to promote the interoperability of 
+heterogeneous agents in a distributed application and to develop standards for the sharing and 
+reuse of knowledge bases. 
+KQML is independent: 
+- message content (independent of the ontology and the language used to code the message 
+content (e.g. Prolog, STEP, SQL, KIF etc.)). 
+- also the transport mechanism (TCP/IP, e-mail, CORBA objects, etc.). This language 
+finds its foundations in the theory of speech acts: 
+- KQML language primitives are called "performative" 
+- define the actions (operations) that agents can use in a dialogue between agents 
+11 
+The general syntax (format) of the KQML message essentially consists of a performative 
+verb associated with content whose representation format is not imposed by the language. 
+Conceptually, a KQML message breaks down into three levels: 
+1- message level, which makes it possible to identify the type of act (name of the 
+performative), the language and the ontology used and which apply to the content; 
+2- a communication level, which makes it possible to identify the sender, the receiver and 
+unique identifier for the message; 
+3- a content level. This is the actual content of the message; it can be written in any 
+representation language (eg: PROLOG, KIF, LISP, C, KQML (itself), XML ... etc). 
+V.4.1. KQML Reserved Parameters 
+V.4.2. The performatives of the KQML communication language 
+36 performatives divided into 3 categories: 
+The 18 discourse performatives: used to exchange knowledge and information present in 
+the agent's knowledge base (ask-if, ask-one, tell, describe, stream-all . . .etc ) 
+The 11 interconnection performatives: help to connect agents with each other (register, 
+unregister, broadcast, etc.) 
+The 7 exceptional performatives: used to change the abnormal course of exchanges 
+(error, sorry, standby . . . etc) 
+In KQML, any agent is seen as managing a database (DB) Example : 
+12 
+Example 
+13 
+V.5. Communication language ACL – FIPA 
+The FIPA (Foundation for Intelligent Physical Agents) is an organization founded in 
+1996 to promote the use of software agents in the industry, has specified a communication 
+language between agents named FIPA-ACL. FIPA's ACL language is also based on speech act 
+theory and has benefited greatly from KQML's research results. ACL language primitives called 
+"communication acts" 
+V.5.1. message syntax 
+The message syntax is quite similar to that of KQML: 
+14 
+FIPA-ACL is based on the definition of 2 sets: a set of 21 primitive acts of 
+communication, to which are added the other acts of communication that can be obtained by the 
+composition of these basic acts. 
+A set of predefined messages that all agents can understand 
+primitive communicative acts: are defined atomically, ie they are not defined from other 
+acts (followed by a star "*"). 
+compound communicative acts: are defined from other acts by one of the following 
+operations: 
+- ";" indicating a sequence of actions 
+- through the composition operator " | " indicating a non-deterministic choice of action 
+V.5.2. Communication Language Performatives Category ACL - FIPA 
+The 21 acts of communication are expressed by performatives in 5 groups: 
+1- passing information: inform*, inform-if (macro act), inform-ref (macro act), confirm*, 
+disconfirm* 
+2- requisition of information: query-if, query-ref, subscribe 
+3- negotiation: accept-proposal, cfp, propose, reject-proposal 
+4- distribution of tasks (or execution of an action): request*, requestwhen, request￾whenever, agree, cancel, refuse 
+5- error handling: failure, not-understood "Inform" and "Request" are the two basic 
+performatives for FIPA. 
+15 
+Examples: 
+V.6. Similarities and differences between KQML and FIPA-ACL 
+1- They agree on the first and fundamental idea of the philosophy of ordinary language: - 
+any utterance is an act (an action) which aims to accomplish (do) something. - the 
+messages express an illocution value (performatives or acts of communication) which 
+applies to a content (the field: content in both cases). 
+2- They are very similar in their basic concepts and principles - are syntactically identical 
+(except differences on the names of the performatives) - they both do not imply any 
+commitment for a given language for the content 
+3- They are different: - at the level of description and theoretical aspects related to 
+semantics - at the level of the choice and definitions of the modalities they use (language 
+used to describe the states of the agents). - in agent management (registration tasks, 
+localization, group membership, etc.) 
+16 
