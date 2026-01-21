@@ -14,7 +14,7 @@ from preprocessing import (
     make_thumbnail,
     get_image_dimensions
 )
-from ocr import run_ocr
+from ocr import run_ocr, draw_ocr_boxes
 from metadata_store import get_metadata_store
 
 logger = logging.getLogger(__name__)
@@ -104,7 +104,21 @@ class ImagePipeline:
             if self.metadata_store.exists_by_sha(sha256):
                 logger.info(f"Skipping duplicate (SHA256: {sha256[:16]}...)")
                 self.stats["skipped_duplicates"] += 1
-                temp_path.unlink()  # Clean up temp file
+                
+                # Cleanup logic: Only unlink if it's a temp file (not the original source)
+                # This prevents deleting the user's input file if duplicate detected.
+                should_unlink = True
+                if hasattr(ext_record, 'source_type') and ext_record.source_type == 'image':
+                    try:
+                        # If temp_path refers to the same file as source, DON'T delete
+                        if temp_path.resolve() == Path(ext_record.source).resolve():
+                            should_unlink = False
+                    except Exception:
+                        pass
+                
+                if should_unlink:
+                    temp_path.unlink()  # Clean up temp file
+                
                 return None
             
             # Step 3: Get dimensions
@@ -115,21 +129,22 @@ class ImagePipeline:
             base_name = f"{record_id}"
             
             # Paths for processed files
-            raw_path = config.RAW_DIR / f"{base_name}.png"
+            # Use the existing temp_path as the raw_path (don't rename to UUID)
+            raw_path = temp_path
+            
+            # Normalized and thumbnail still get UUID names for consistency
             normalized_path = config.PROCESSED_DIR / f"{base_name}_norm.png"
             thumbnail_path = config.PROCESSED_DIR / f"{base_name}_thumb.png"
+            annotated_path = config.PROCESSED_DIR / f"{base_name}_annotated.png"
             
-            # Step 5: Move/rename to final raw location
-            if temp_path != raw_path:
-                # If temp_path is the original source, copy it (preserve source)
-                # If temp_path is a temporary extraction, move it
-                if str(temp_path.resolve()) == str(Path(ext_record.source).resolve()):
-                    import shutil
-                    shutil.copy2(temp_path, raw_path)
-                    logger.debug(f"Copied source to raw: {raw_path.name}")
-                else:
-                    temp_path.rename(raw_path)
-                    logger.debug(f"Moved temp to raw: {raw_path.name}")
+            # Step 5: File is already in raw location (handled by extractors), so no move needed
+            # Unless it's not in RAW_DIR for some reason
+            if raw_path.parent != config.RAW_DIR:
+                dest_path = config.RAW_DIR / raw_path.name
+                if raw_path != dest_path:
+                    raw_path.rename(dest_path)
+                    raw_path = dest_path
+                    logger.debug(f"Moved to raw dir: {raw_path.name}")
             
             # Step 6: Normalize image
             try:
@@ -150,10 +165,22 @@ class ImagePipeline:
             if config.OCR_ENABLED:
                 try:
                     ocr_result = run_ocr(normalized_path)
+                    
+                    # Draw boxes if any found
+                    if ocr_result.get("boxes"):
+                        draw_ocr_boxes(normalized_path, ocr_result["boxes"], annotated_path)
                 except Exception as e:
                     logger.warning(f"OCR failed: {e}")
             
             # Step 9: Build metadata record
+            paths_dict = {
+                "raw": str(raw_path),
+                "normalized": str(normalized_path),
+                "thumbnail": str(thumbnail_path)
+            }
+            if annotated_path.exists():
+                paths_dict["annotated"] = str(annotated_path)
+
             record = {
                 "id": record_id,
                 "sha256": sha256,
@@ -163,11 +190,7 @@ class ImagePipeline:
                 "source_page": ext_record.source_index,
                 "width": norm_width,
                 "height": norm_height,
-                "paths": {
-                    "raw": str(raw_path),
-                    "normalized": str(normalized_path),
-                    "thumbnail": str(thumbnail_path)
-                },
+                "paths": paths_dict,
                 "ocr_text": ocr_result.get("text"),
                 "ocr_boxes": ocr_result.get("boxes", []),
                 "tags": [],
