@@ -1,1 +1,255 @@
-{"id": "e50f5d5b-2958-4417-9cf0-110bcb45eff9", "sha256": "44bc1e9f3842812a953c770e861cd7ab0724ece26e18c4f2281c807ca5021a09", "file_name": "test.jpg", "source": "data\\raw\\test.jpg", "source_type": "image", "source_page": null, "width": 1024, "height": 698, "paths": {"raw": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\test.jpg", "normalized": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\processed\\e50f5d5b-2958-4417-9cf0-110bcb45eff9_norm.png", "thumbnail": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\processed\\e50f5d5b-2958-4417-9cf0-110bcb45eff9_thumb.png", "annotated": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\processed\\e50f5d5b-2958-4417-9cf0-110bcb45eff9_annotated.png"}, "ocr_text": "Technique: Sagittal T1, T2 and TIRM weighted imaging was obtained through the cervical spine as well as axial T1 and T2 images. Oblique T2 weighted images were acquired through the neural exit foramina bilaterally. Findings: The vertebral bodies and discs are of normal height and signal with no malalignment: The posterior elements are normal: No disc bulges are identified: The cranio-cervical junction is unremarkable_ as is the spinal canal and cord. The neural exit foramina are widely patent: The paravertebral soft tissues are normal Conclusion: Normal MRI cervical spine.", "ocr_boxes": [{"text": "Technique:", "bbox": {"x": 43, "y": 12, "width": 99, "height": 29}, "confidence": 0.9996606532543456}, {"text": "Sagittal T1, T2 and TIRM weighted imaging", "bbox": {"x": 44, "y": 44, "width": 368, "height": 24}, "confidence": 0.687078270006973}, {"text": "was obtained through the", "bbox": {"x": 416, "y": 44, "width": 218, "height": 24}, "confidence": 0.9992436410480446}, {"text": "cervical spine", "bbox": {"x": 638, "y": 44, "width": 116, "height": 24}, "confidence": 0.8853037631286768}, {"text": "as well as axial T1 and T2", "bbox": {"x": 758, "y": 42, "width": 230, "height": 24}, "confidence": 0.7562136425528782}, {"text": "images. Oblique T2 weighted images were acquired through the neural exit foramina bilaterally.", "bbox": {"x": 43, "y": 70, "width": 765, "height": 27}, "confidence": 0.814200501640518}, {"text": "Findings:", "bbox": {"x": 42, "y": 124, "width": 85, "height": 31}, "confidence": 0.9997150695006624}, {"text": "The vertebral bodies and discs are of normal height and signal with no malalignment: The posterior elements are", "bbox": {"x": 74, "y": 155, "width": 914, "height": 28}, "confidence": 0.6925292213799803}, {"text": "normal:", "bbox": {"x": 75, "y": 187, "width": 62, "height": 20}, "confidence": 0.482580578316526}, {"text": "No disc bulges are identified:", "bbox": {"x": 74, "y": 214, "width": 236, "height": 24}, "confidence": 0.8542298472797442}, {"text": "The cranio-cervical junction is unremarkable_", "bbox": {"x": 74, "y": 240, "width": 357, "height": 26}, "confidence": 0.9935856435439204}, {"text": "as is the spinal canal and cord.", "bbox": {"x": 436, "y": 242, "width": 250, "height": 24}, "confidence": 0.9362735970254066}, {"text": "The neural exit foramina are widely patent: The paravertebral soft tissues are normal", "bbox": {"x": 74, "y": 268, "width": 680, "height": 27}, "confidence": 0.5991511944193902}, {"text": "Conclusion:", "bbox": {"x": 45, "y": 329, "width": 100, "height": 20}, "confidence": 0.704338971659893}, {"text": "Normal MRI cervical spine.", "bbox": {"x": 44, "y": 356, "width": 220, "height": 24}, "confidence": 0.9630223875847062}], "tags": [], "status": "ready", "extracted_at": "2026-01-21T14:19:08.486425Z"}
+[
+    {
+        "file_name": "HighlightedV1_page4_img1.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img1.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 327,
+        "height": 841,
+        "sha256": "cf50e4be48e9e118620aafd30810bb4e0ec098768a373bc42a7f8dfbdfec340e",
+        "caption": "The image shows a peach-colored background with a white border, and in the center of the image there is text that reads \"Pantone Color of the Year 2019\".",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img2.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img2.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 498,
+        "height": 498,
+        "sha256": "16531534bfdb670eeafdbb239dcda8a6666fb2f2d4b5e0eae03e35459a94ca85",
+        "caption": "The image shows a black and white MRI scan of the brain, providing a detailed view of the cerebellum.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img3.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img3.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 15,
+        "height": 45,
+        "sha256": "8ac5238c9b47e4152520d7437b077ec134c2e6cf784af8a2166da17cc9d25453",
+        "caption": "The image shows a black background with a white line running through it, creating a stark contrast between the two colors. The line appears to be made up of small dots, giving it a unique and eye-catching look.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img4.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img4.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "13cb4e437e7f943fb695305466dce3ae79ccd04dff1b158c7f2b89b1d3144d76",
+        "caption": "The image shows a blue snowflake on a black background, creating a stark contrast between the two colors. The snowflake is in the center of the image, with its intricate details and shape clearly visible. The blue color of the snowflake stands out against the dark background, making it the focal point of the picture.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img5.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img5.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "005355d63ea505844a2780e159a068c9f384cdbaf85787f88e0bf6c13fb9d9d3",
+        "caption": "The image shows a red fire symbol on a black background, creating a vivid contrast between the two colors. The fire symbol is composed of a bright red color, standing out against the dark background.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img6.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img6.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 15,
+        "height": 49,
+        "sha256": "ff94fd401369917059a013751143adb34d66c05341035001c443590138ef48be",
+        "caption": "The image shows a black and white photo of a man in a suit and tie, standing in front of a dark background. The man is wearing a black suit with a white shirt and a black tie, and he is looking off to the side with a serious expression on his face. His hair is slicked back and he has a slight smile on his lips. He is standing with his hands clasped in his lap and his feet slightly apart.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img7.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img7.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 15,
+        "height": 47,
+        "sha256": "fcf975425c757bd4aa4120f807ab163a96e8184b850f5bf43564b84097b8402e",
+        "caption": "The image shows a black and white photo of a man in a suit and tie, standing in front of a dark background. The man is wearing a black suit with a white shirt and a black tie, and he is looking off to the side with a serious expression on his face. His hair is slicked back and he has a slight smile on his lips. He is standing with his hands clasped in his lap and his head slightly tilted to the left.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img8.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img8.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "d6e735898197d0481b9c375587733938b73b13d2c72fff2240ee7a073d3536b2",
+        "caption": "The image shows a red fire symbol on a black background, creating a vivid contrast between the two colors. The fire symbol is in the center of the image, with the black background providing a stark contrast to the bright red of the fire.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img9.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img9.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 498,
+        "height": 498,
+        "sha256": "d2d9385ebea9d451d1b3db88deb6c8930a8a5bba359abeda57e73a74492b5839",
+        "caption": "The image shows a black and white MRI scan of the brain, providing a detailed view of the cerebellum.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img10.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img10.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 389,
+        "height": 389,
+        "sha256": "6c60a482cb1e5ebd7a7d2f4ca82d6881d0de1999407b643335d4b77ac363f3bf",
+        "caption": "The image shows a ct scan of the brain, which is a black and white MRI scan of a patient's brain. It is a detailed view of the cerebellum, with the brain in the center and the spinal cord radiating outwards. The brain is surrounded by a halo of light, indicating that it is a radiograph.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img11.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img11.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 389,
+        "height": 389,
+        "sha256": "ccd588675248a902466d1f83ee7a19fc2548868d9413063114f6dfbcf5eaa20d",
+        "caption": "The image shows a black and white MRI scan of a man's abdomen, providing a detailed view of the internal structure of the abdomen.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img12.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img12.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 354,
+        "height": 575,
+        "sha256": "44ea43a1172e134b23b4d8cc97bbd0c0448d113ef2b16dd8c6b530090e41afb4",
+        "caption": "The image shows a blue background with a white border and a black border, and in the center of the image there is text that reads \"How to choose the right color for your home\". The blue color is a deep, calming hue that stands out against the white border. The text is written in a bold, black font, making it easy to read.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img13.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img13.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "005355d63ea505844a2780e159a068c9f384cdbaf85787f88e0bf6c13fb9d9d3",
+        "caption": "The image shows a red fire symbol on a black background, creating a vivid contrast between the two colors. The fire symbol is composed of a bright red color, standing out against the dark background.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img14.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img14.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "189dbd922f038e874be192d65f24976fae59e9ad5e3066f1d9fa628e2ed70c08",
+        "caption": "The image shows a blue snowflake on a black background, creating a stark contrast between the two colors. The snowflake is in the center of the image, with its intricate details and shape clearly visible. The blue color of the snowflake stands out against the dark background, making it the focal point of the picture.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img15.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img15.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "d6e735898197d0481b9c375587733938b73b13d2c72fff2240ee7a073d3536b2",
+        "caption": "The image shows a red fire symbol on a black background, creating a vivid contrast between the two colors. The fire symbol is in the center of the image, with the black background providing a stark contrast to the bright red of the fire.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page4_img16.png",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page4_img16.png",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 4,
+        "width": 166,
+        "height": 166,
+        "sha256": "005355d63ea505844a2780e159a068c9f384cdbaf85787f88e0bf6c13fb9d9d3",
+        "caption": "The image shows a red fire symbol on a black background, creating a vivid contrast between the two colors. The fire symbol is composed of a bright red color, standing out against the dark background.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page8_img1.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page8_img1.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 8,
+        "width": 564,
+        "height": 564,
+        "sha256": "9128ca089eccd76752d397ae6d1f126e70f392c07c527f309498525e2acb40c0",
+        "caption": "The image shows a ct scan of the brain, which is a black and white MRI scan of a patient's brain. It is a detailed view of the internal structure of the human brain, including the cerebellum, spinal cord, and spinal cord.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page10_img1.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page10_img1.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 10,
+        "width": 564,
+        "height": 564,
+        "sha256": "28061fc5795d49ea496c62eea8401bbd952619ffa53e590dda3a63ff77f5bfba",
+        "caption": "The image shows an x-ray of a man's head and neck, providing a detailed view of the brain.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page10_img2.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page10_img2.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 10,
+        "width": 564,
+        "height": 564,
+        "sha256": "91cfb5919a7a20b800d312f045c291afed3e3394f24ad832610a63ba3eb21706",
+        "caption": "The image shows a ct scan of the brain, which is a black and white MRI scan of a person's brain. It is a detailed view of the cerebellum, with the brain in the center of the image and the surrounding area surrounding it. The brain is clearly visible, with its various organs and structures clearly defined.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page10_img3.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page10_img3.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 10,
+        "width": 564,
+        "height": 564,
+        "sha256": "dd4464205a046ad384844305e1b0983a126ed398991dc4bc31a9c3eaf7be1c39",
+        "caption": "The image shows a ct scan of a man's abdomen, which is a black and white MRI scan of the abdomen. It is a detailed view of the man's internal organs, including the bones, muscles, and other structures.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page10_img4.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page10_img4.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 10,
+        "width": 564,
+        "height": 564,
+        "sha256": "9128ca089eccd76752d397ae6d1f126e70f392c07c527f309498525e2acb40c0",
+        "caption": "The image shows a ct scan of the brain, which is a black and white MRI scan of a patient's brain. It is a detailed view of the internal structure of the human brain, including the cerebellum, spinal cord, and spinal cord.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page10_img5.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page10_img5.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 10,
+        "width": 564,
+        "height": 564,
+        "sha256": "6f86660d50a62e8f9c1920b163c0c54e17afda966cfdd9db07f22b21d4e61bed",
+        "caption": "The image shows a ct scan of the brain, which is a black and white MRI scan of a patient's brain. It is a detailed image that shows the brain in great detail, including the cerebellum, cerebrospinal cord, and the spinal cord.",
+        "analysis_type": "detailed_caption"
+    },
+    {
+        "file_name": "HighlightedV1_page10_img6.jpeg",
+        "file_path": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1_page10_img6.jpeg",
+        "source_file": "C:\\Users\\Sam-tech\\Desktop\\Github\\image-encoder\\data\\raw\\HighlightedV1.pdf",
+        "page_number": 10,
+        "width": 564,
+        "height": 564,
+        "sha256": "b0a5af2f15332fcc1888277c0196ec997f763784db29aafec59f80166e2742e9",
+        "caption": "The image shows a black and white MRI scan of the brain, providing a detailed view of the cerebral cortex.",
+        "analysis_type": "detailed_caption"
+    }
+]
