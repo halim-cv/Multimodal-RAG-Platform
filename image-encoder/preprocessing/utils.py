@@ -11,27 +11,6 @@ import config
 
 logger = logging.getLogger(__name__)
 
-
-def compute_sha256(file_path: Path) -> str:
-    """
-    Compute SHA256 hash of a file
-    
-    Args:
-        file_path: Path to file
-    
-    Returns:
-        Hex SHA256 hash
-    """
-    sha256_hash = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    
-    hash_value = sha256_hash.hexdigest()
-    logger.debug(f"Computed SHA256 for {file_path.name}: {hash_value[:16]}...")
-    return hash_value
-
-
 def normalize_image(
     in_path: Path,
     out_path: Path,

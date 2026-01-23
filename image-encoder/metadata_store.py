@@ -21,15 +21,7 @@ class MetadataStore:
     def save_metadata(self, record: Dict[str, Any]) -> str:
         """Save a metadata record, return the id"""
         raise NotImplementedError
-    
-    def exists_by_sha(self, sha256: str) -> bool:
-        """Check if image with this SHA exists"""
-        raise NotImplementedError
-    
-    def get_by_sha(self, sha256: str) -> Optional[Dict[str, Any]]:
-        """Get record by SHA256"""
-        raise NotImplementedError
-    
+
     def update_status(self, record_id: str, status: str, notes: str = "") -> None:
         """Update status of a record"""
         raise NotImplementedError
@@ -60,23 +52,6 @@ class JSONLStore(MetadataStore):
         
         logger.info(f"Saved metadata for {record['id']}")
         return record["id"]
-    
-    def exists_by_sha(self, sha256: str) -> bool:
-        """Check if SHA exists in any record"""
-        return self.get_by_sha(sha256) is not None
-    
-    def get_by_sha(self, sha256: str) -> Optional[Dict[str, Any]]:
-        """Find record by SHA256"""
-        if not self.filepath.exists():
-            return None
-        
-        with open(self.filepath, "r", encoding="utf-8") as f:
-            for line in f:
-                if line.strip():
-                    record = json.loads(line)
-                    if record.get("sha256") == sha256:
-                        return record
-        return None
     
     def update_status(self, record_id: str, status: str, notes: str = "") -> None:
         """Update status - rewrite entire file (inefficient but simple for PoC)"""
@@ -127,7 +102,6 @@ class SQLiteStore(MetadataStore):
         conn.execute("""
             CREATE TABLE IF NOT EXISTS images (
                 id TEXT PRIMARY KEY,
-                sha256 TEXT UNIQUE NOT NULL,
                 file_name TEXT,
                 source TEXT,
                 source_type TEXT,
@@ -161,13 +135,12 @@ class SQLiteStore(MetadataStore):
         try:
             conn.execute("""
                 INSERT INTO images (
-                    id, sha256, file_name, source, source_type, source_page,
+                    id, file_name, source, source_type, source_page,
                     extracted_at, width, height, path_raw, path_normalized,
                     path_thumbnail, ocr_text, ocr_boxes, tags, status, notes
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 record["id"],
-                record["sha256"],
                 record.get("file_name"),
                 record.get("source"),
                 record.get("source_type"),
@@ -186,28 +159,12 @@ class SQLiteStore(MetadataStore):
             ))
             conn.commit()
             logger.info(f"Saved metadata for {record['id']}")
-        except sqlite3.IntegrityError:
-            logger.warning(f"Duplicate SHA256: {record['sha256']}")
         finally:
             conn.close()
         
         return record["id"]
     
-    def exists_by_sha(self, sha256: str) -> bool:
-        """Check if SHA exists"""
-        return self.get_by_sha(sha256) is not None
-    
-    def get_by_sha(self, sha256: str) -> Optional[Dict[str, Any]]:
-        """Get record by SHA256"""
-        conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.execute("SELECT * FROM images WHERE sha256 = ?", (sha256,))
-        row = cursor.fetchone()
-        conn.close()
-        
-        if row:
-            return dict(row)
-        return None
+
     
     def update_status(self, record_id: str, status: str, notes: str = "") -> None:
         """Update status"""
