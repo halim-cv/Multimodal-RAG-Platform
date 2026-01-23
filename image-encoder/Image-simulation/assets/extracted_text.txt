@@ -1,0 +1,25 @@
+OCR Text Extraction Results
+==================================================
+
+Image: test.png
+
+More Detailed Caption:
+The image is a black and white MRI scan of the cervical spine. The scan is divided into two sections, with the left side showing the left and right side of the image. The left side shows the spinal cord and spinal cord, while the right side shows a normal MRI spinal cord.
+
+The image also includes text that explains the technique of the scan, which explains that the vertebral bodies and discs are of normal height and signal with no malignant. The posterior elements are normal, which are not visible in the image, but they are not clearly visible. The image also mentions that the normal MRI cervical spine is widely patent. The parabencial soft tissues are normal.
+
+Extracted Text Regions:
+--------------------------------------------------
+[Region 1] </s>Technique:
+[Region 2] Sagittal T1, T2 and TIRM weighted imaging was obtained through the cervical spine as well as axial T1 and T2
+[Region 3] images. Oblique T2 weighted images were acquired through the neural exit foramina bilateralally.
+[Region 4] Findings:
+[Region 5] . The vertical bodies and discs are of normal height and signal with no malignment. The posterior elements are
+[Region 6] normal.
+[Region 7] . No disc bulges are identified.
+[Region 8] . The cranial-cervical junction is unremarkable, as is the spinal canal and cord.
+[Region 9] . The neural exit formamina are widely patent. The paraveterbral soft tissues are normal.
+[Region 10] ter
+[Region 11] Conclusion:
+[Region 12] Drlogy.com
+[Region 13] Normal MRI cervical spine.
