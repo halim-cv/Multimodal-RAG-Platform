@@ -111,7 +111,6 @@ class SQLiteStore(MetadataStore):
                 height INTEGER,
                 path_raw TEXT,
                 path_normalized TEXT,
-                path_thumbnail TEXT,
                 ocr_text TEXT,
                 ocr_boxes TEXT,
                 tags TEXT,
@@ -137,7 +136,7 @@ class SQLiteStore(MetadataStore):
                 INSERT INTO images (
                     id, file_name, source, source_type, source_page,
                     extracted_at, width, height, path_raw, path_normalized,
-                    path_thumbnail, ocr_text, ocr_boxes, tags, status, notes
+                    ocr_text, ocr_boxes, tags, status, notes
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 record["id"],
@@ -150,7 +149,6 @@ class SQLiteStore(MetadataStore):
                 record.get("height"),
                 paths.get("raw"),
                 paths.get("normalized"),
-                paths.get("thumbnail"),
                 record.get("ocr_text"),
                 json.dumps(record.get("ocr_boxes", [])),
                 json.dumps(record.get("tags", [])),

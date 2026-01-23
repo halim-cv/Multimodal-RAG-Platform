@@ -1,5 +1,5 @@
 """
-Preprocessing utilities: normalization, thumbnails, hashing
+Preprocessing utilities: normalization, hashing
 """
 import hashlib
 from pathlib import Path
@@ -70,46 +70,6 @@ def normalize_image(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path, "PNG")
     logger.info(f"Saved normalized image: {out_path.name} ({width}x{height})")
-    
-    return width, height
-
-
-def make_thumbnail(
-    in_path: Path,
-    thumb_path: Path,
-    thumb_size: int = None
-) -> Tuple[int, int]:
-    """
-    Create thumbnail from image
-    
-    Args:
-        in_path: Input image path
-        thumb_path: Output thumbnail path
-        thumb_size: Max dimension for thumbnail (defaults to config.THUMBNAIL_SIZE)
-    
-    Returns:
-        (width, height) of thumbnail
-    """
-    if thumb_size is None:
-        thumb_size = config.THUMBNAIL_SIZE
-    
-    logger.info(f"Creating thumbnail for {in_path.name}")
-    
-    img = Image.open(in_path)
-    
-    # Convert to RGB if needed
-    if img.mode != "RGB":
-        img = img.convert("RGB")
-    
-    # Create thumbnail (preserves aspect ratio)
-    img.thumbnail((thumb_size, thumb_size), Image.Resampling.LANCZOS)
-    
-    # Save thumbnail
-    thumb_path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(thumb_path, "PNG")
-    
-    width, height = img.size
-    logger.info(f"Saved thumbnail: {thumb_path.name} ({width}x{height})")
     
     return width, height
 
