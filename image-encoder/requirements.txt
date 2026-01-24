@@ -11,3 +11,4 @@ accelerate>=0.26.0
 torch>=2.0.0
 timm>=0.9.10
 einops>=0.7.0
+doclayout_yolo

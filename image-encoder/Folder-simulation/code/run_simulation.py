@@ -1,6 +1,6 @@
 """
 Figure Extraction Simulation
-Extracts figures from PDF using the intelligent figure detection system
+Extracts figures from PDF using the Document Understanding Engine
 """
 
 import sys
@@ -61,10 +61,10 @@ def main():
     
     print(f"\nResults saved to: {ASSETS_DIR}")
     
-    # Offload GPU resources
-    print("\nOffloading models from GPU...")
+    # Offload GPU resources (Document Understanding Engine)
+    print("\nOffloading Document Understanding Engine from GPU...")
     cleanup_models()
-    print("GPU cleanup complete")
+    print("GPU cleanup complete - model offloaded successfully")
 
 
 if __name__ == "__main__":
