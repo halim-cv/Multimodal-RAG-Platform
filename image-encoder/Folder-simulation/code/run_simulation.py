@@ -10,9 +10,9 @@ from pathlib import Path
 current_dir = Path(__file__).parent
 project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root))
-sys.path.insert(0, str(project_root / 'extraction'))
+sys.path.insert(0, str(project_root / 'document_understanding'))
 
-from extraction.extractors import extract_from_file, cleanup_models
+from document_understanding.extractors import extract_from_file, cleanup_models
 import logging
 
 # Configure logging
