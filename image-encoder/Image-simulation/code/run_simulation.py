@@ -16,8 +16,8 @@ sys.path.insert(0, str(project_root / 'scene_understanding'))
 from scene_understanding.scene_understanding_engine import SceneUnderstandingEngine, draw_ocr_bboxes
 
 # Paths
-DATA_RAW_DIR = project_root / 'data' / 'raw'
-TEST_IMAGE_PATH = DATA_RAW_DIR / 'test.png'
+#DATA_RAW_DIR = project_root / 'data' / 'raw'
+TEST_IMAGE_PATH = Path(r'C:\Users\Sam-tech\Desktop\Github\Multimodal-RAG-Platform\image-encoder\Folder-simulation\assets\figure_page10_3.png')
 ASSETS_DIR = current_dir.parent / 'assets'
 
 # Output paths

@@ -146,7 +146,7 @@ class SceneUnderstandingEngine:
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.model_id, 
                 trust_remote_code=True, 
-                torch_dtype='auto', 
+                dtype='auto', 
                 attn_implementation='eager'
             ).eval().to(self.device)
             self.processor = AutoProcessor.from_pretrained(self.model_id, trust_remote_code=True)

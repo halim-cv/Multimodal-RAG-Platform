@@ -1,25 +1,51 @@
 OCR Text Extraction Results
 ==================================================
 
-Image: test.png
+Image: figure_page10_3.png
 
 More Detailed Caption:
-The image is a black and white MRI scan of the cervical spine. The scan is divided into two sections, with the left side showing the left and right side of the image. The left side shows the spinal cord and spinal cord, while the right side shows a normal MRI spinal cord.
+The image is a table that shows four examples of open-ended and closed-ended VOA results by Med3DVLM and M3D-LaMed. The table is divided into four sections, each with a different question answer. 
 
-The image also includes text that explains the technique of the scan, which explains that the vertebral bodies and discs are of normal height and signal with no malignant. The posterior elements are normal, which are not visible in the image, but they are not clearly visible. The image also mentions that the normal MRI cervical spine is widely patent. The parabencial soft tissues are normal.
+The first section is titled "Open-ended visual question answering" and has a question that reads "What plane is the image in?" The second section is labeled "Ground Truth: Aaxial". The third section is labelled "Where is the location located?" The fourth section has a list of questions that ask the viewer to answer. The fifth section has an image of the left lung and the sixth section has two questions.
+
+Each question is accompanied by a brief description of the question. The questions are written in black text on a white background. The text is in a clear and concise manner, making it easy to read and understand.
 
 Extracted Text Regions:
 --------------------------------------------------
-[Region 1] </s>Technique:
-[Region 2] Sagittal T1, T2 and TIRM weighted imaging was obtained through the cervical spine as well as axial T1 and T2
-[Region 3] images. Oblique T2 weighted images were acquired through the neural exit foramina bilateralally.
-[Region 4] Findings:
-[Region 5] . The vertical bodies and discs are of normal height and signal with no malignment. The posterior elements are
-[Region 6] normal.
-[Region 7] . No disc bulges are identified.
-[Region 8] . The cranial-cervical junction is unremarkable, as is the spinal canal and cord.
-[Region 9] . The neural exit formamina are widely patent. The paraveterbral soft tissues are normal.
-[Region 10] ter
-[Region 11] Conclusion:
-[Region 12] Drlogy.com
-[Region 13] Normal MRI cervical spine.
+[Region 1] </s>Open-ended visual question answering
+[Region 2] Closed-ended Visual question answering
+[Region 3] Question: What plane is the image in?
+[Region 4] Question: Where is the plural effusion
+[Region 5] <Ground Truth: Axial
+[Region 6] located? A. Left lung B. Right lung C. Both
+[Region 7] ung D. Under
+[Region 8] <M3D-LaMed>> Axial
+[Region 9] <Ground Left: B.Right lung
+[Region 10] <Med3DVLM>>Axial
+[Region 11] <M 3D-Lamed>> A.Left lung
+[Region 12] <MedDVLm> B. right lung
+[Region 13] <Question:> Where is lesion located?
+[Region 14] <Question>> What is the nature of the
+[Region 15] <GroundTruth> right middle cranial fossa
+[Region 16] anomaly found in the stomach? A
+[Region 17] Adenocarinoma B. Hemorrhage C. Mass
+[Region 18] <M2D-LAMed> > Posterolateral wall of left
+[Region 19] lesion D. Tuberculosis
+[Region 20] maxillary Antrum
+[Region 21] <Groundtruth> C.Mass lesion
+[Region 22] <Med2DVLMS > Poserior aspect of the right
+[Region 23] nasal passage
+[Region 24] <M5D-Labmed> A, Adenocarcinoma
+[Region 25] <MmedVLM > C. mass lesion
+[Region 26] <Question>>> Which organ has a mass
+[Region 27] <Question?> What Is the CT phase of the
+[Region 28] lesion?
+[Region 29] Image: A Non-contrast B. Contrast C.
+[Region 30] <Ground Trust> Liver
+[Region 31] Image: a Non-Contrast B . Portal venous phase
+[Region 32] <Ground truth> > Portal venus phase
+[Region 33] <M33D-Med> - Pancreas
+[Region 34] <M43D-Led>> B . Contrast
+[Region 35] <MedSDVLM >> > Liver
+[Region 36] <M53D-LED>> D. Portal Venous phase
+[Region 37] 4: Examples of open-ended and closed-ended VOA results by Med3DVLM and M3D_LaMed
