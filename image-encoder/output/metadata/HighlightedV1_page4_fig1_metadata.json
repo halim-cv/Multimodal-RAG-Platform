@@ -1,0 +1,10 @@
+{
+  "path": "C:\\Users\\Sam-tech\\Desktop\\Github\\Multimodal-RAG-Platform\\image-encoder\\output\\extracted_figures\\HighlightedV1_page4_fig1.png",
+  "filename": "HighlightedV1_page4_fig1.png",
+  "file_source": "C:\\Users\\Sam-tech\\Desktop\\Github\\Multimodal-RAG-Platform\\image-encoder\\input\\HighlightedV1.pdf",
+  "source_type": "document",
+  "detailed_caption": "The image is a diagram that shows the multi-modal projector based on multi-scale MLP-Mixer. It consists of two layers, one labeled \"Mixer Layer x N\" and the other labeled \"Spatial\". \n\nThere are two layers in the diagram, labeled \"Low Features\" and \"High Features\". The layers are connected to each other by a series of wires. The wires are arranged in a grid-like pattern, with each layer representing a different component of the project.\n\nThe first layer on the left side of the diagram is labeled \"SPatial\" and has a label that reads \"SPATIAL\". The second layer is labelled \"Full Connected\". The third layer is marked \"GELU\". The fourth layer is called \"Output\".\n\nOverall, the diagram shows how a multi-mode projector is based on multiple-scale MLP-Mixers.",
+  "extracted_text": "Mixer Layer x NSpatialLayer NormLayer NormFeatureMIPMIPLowFeaturesFully connectedGELU-OutputFully-connectedLayer NormSpatialMIPLayer NormMIPHighFeaturesMIP-Layer Layer x NMixer Layer × NFigure 2: Multi-modal projector based on multi-scale MLP-Mixer.",
+  "page_number": 4,
+  "pair_type": "figure-caption"
+}
