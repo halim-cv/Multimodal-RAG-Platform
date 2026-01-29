@@ -16,13 +16,17 @@ from PIL import Image
 import numpy as np
 import gc
 import torch
+<<<<<<< HEAD
 import multiprocessing
+=======
+>>>>>>> ea8f64683de8f2a7696545445eada79d060d26d9
 
 # Import engines
 from document_understanding.document_understanding_engine import DocumentUnderstandingEngine
 from scene_understanding.scene_understanding_engine import SceneUnderstandingEngine
 
 
+<<<<<<< HEAD
 def configure_cpu_constraints():
     """
     Configure CPU threading constraints when CUDA is not available.
@@ -80,6 +84,8 @@ def configure_cpu_constraints():
         }
 
 
+=======
+>>>>>>> ea8f64683de8f2a7696545445eada79d060d26d9
 class ImagePipeline:
     """
     Pipeline for processing documents and images through document and scene understanding engines.
@@ -93,9 +99,12 @@ class ImagePipeline:
             input_dir: Directory containing input files
             output_dir: Directory to save output results
         """
+<<<<<<< HEAD
         # Configure CPU/GPU constraints before initializing anything else
         self.device_config = configure_cpu_constraints()
         
+=======
+>>>>>>> ea8f64683de8f2a7696545445eada79d060d26d9
         self.input_dir = Path(input_dir)
         self.output_dir = Path(output_dir)
         
@@ -259,8 +268,13 @@ class ImagePipeline:
         print(f"  - {len(extracted_figures)} extracted figure(s)")
         print(f"  - {len(original_images)} original image(s)\n")
         
+<<<<<<< HEAD
         # Initialize scene understanding engine with configured device
         device = self.device_config['device']
+=======
+        # Initialize scene understanding engine
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+>>>>>>> ea8f64683de8f2a7696545445eada79d060d26d9
         scene_engine = SceneUnderstandingEngine(device=device)
         scene_engine.load()
         
@@ -349,12 +363,15 @@ class ImagePipeline:
         print("="*60)
         print(f"Input Directory: {self.input_dir.absolute()}")
         print(f"Output Directory: {self.output_dir.absolute()}")
+<<<<<<< HEAD
         print(f"Device: {self.device_config['device'].upper()}")
         if self.device_config['device'] == 'cpu':
             print(f"CPU Cores: {self.device_config['cpu_count']}")
             print(f"Thread Count: {self.device_config['thread_count']}")
         else:
             print(f"GPU: {self.device_config.get('gpu_name', 'Unknown')}")
+=======
+>>>>>>> ea8f64683de8f2a7696545445eada79d060d26d9
         print("="*60 + "\n")
         
         # Phase 1: Document Processing
