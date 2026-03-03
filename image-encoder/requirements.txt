@@ -12,3 +12,8 @@ torch>=2.0.0
 timm>=0.9.10
 einops>=0.7.0
 doclayout_yolo>=0.1.0
+# --- Missing packages added ---
+opencv-python>=4.8.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+huggingface-hub>=0.20.0
