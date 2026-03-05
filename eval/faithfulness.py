@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 _client   = genai.Client(api_key=os.getenv("GEMINI_API_KEY", ""))
-_MODEL_ID = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-preview-05-20")
+_MODEL_ID = os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
 
 
 _FAITHFULNESS_PROMPT = """

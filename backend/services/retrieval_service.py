@@ -15,9 +15,6 @@ import time
 from pathlib import Path
 from typing import Optional
 
-import numpy as np
-import faiss
-
 # ─────────────────────────────────────────────────
 # Path bootstrap — import E5 utilities from text-encoding module
 # ─────────────────────────────────────────────────
@@ -28,7 +25,28 @@ for _p in [str(_TEXT_CODE)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from embeddings_utils import get_local_model, embed_query   # type: ignore
+# Graceful imports for heavy ML dependencies
+try:
+    import numpy as np
+    _HAS_NUMPY = True
+except ImportError:
+    np = None  # type: ignore
+    _HAS_NUMPY = False
+
+try:
+    import faiss
+    _HAS_FAISS = True
+except ImportError:
+    faiss = None  # type: ignore
+    _HAS_FAISS = False
+
+try:
+    from embeddings_utils import get_local_model, embed_query   # type: ignore
+    _HAS_EMBEDDINGS = True
+except Exception:
+    _HAS_EMBEDDINGS = False
+    get_local_model = None
+    embed_query = None
 
 # ─────────────────────────────────────────────────
 # Sessions root (mirrors what Text-encoding uses)
@@ -41,6 +59,11 @@ _SESSIONS_ROOT = _PROJECT_ROOT / "Text-encoding" / "sessions"
 _embed_model = None
 
 def _get_embed_model():
+    if not _HAS_EMBEDDINGS:
+        raise RuntimeError(
+            "Embedding utilities not available. "
+            "Install sentence-transformers, faiss-cpu, and run download_model.py."
+        )
     global _embed_model
     if _embed_model is None:
         _embed_model = get_local_model()
@@ -55,7 +78,7 @@ _INDEX_CACHE: dict = {}
 _CACHE_TTL_SECONDS = 300   # 5 minutes
 
 
-def _l2_normalize(x: np.ndarray) -> np.ndarray:
+def _l2_normalize(x):
     norms = np.linalg.norm(x, axis=1, keepdims=True)
     norms[norms == 0] = 1.0
     return x / norms
@@ -64,7 +87,7 @@ def _l2_normalize(x: np.ndarray) -> np.ndarray:
 def _load_session_embeddings(
     session_id: str,
     modalities: Optional[list[str]] = None,
-) -> tuple[np.ndarray, list[str], list[dict]]:
+) -> tuple:
     """
     Walk the session directory and load ALL embeddings.pkl files.
     Optionally filter by modality.
@@ -72,13 +95,16 @@ def _load_session_embeddings(
     Returns:
         (combined_embeddings, all_texts, all_metadata)
     """
+    if not _HAS_NUMPY:
+        raise RuntimeError("numpy is required for retrieval.")
+
     session_dir = _SESSIONS_ROOT / session_id
     if not session_dir.exists():
         raise FileNotFoundError(f"Session not found: {session_id}")
 
-    all_embs   : list[np.ndarray] = []
-    all_texts  : list[str]        = []
-    all_meta   : list[dict]       = []
+    all_embs   : list = []
+    all_texts  : list[str]  = []
+    all_meta   : list[dict] = []
 
     for pkl_path in session_dir.rglob("embeddings.pkl"):
         try:
@@ -131,8 +157,11 @@ def _load_session_embeddings(
     return combined, all_texts, all_meta
 
 
-def _build_index(embeddings: np.ndarray) -> faiss.IndexFlatIP:
+def _build_index(embeddings):
     """Build a cosine-similarity FAISS index (normalise → inner product)."""
+    if not _HAS_FAISS:
+        raise RuntimeError("faiss-cpu is required for retrieval. Install with: pip install faiss-cpu")
+
     embs = _l2_normalize(embeddings.copy())
     index = faiss.IndexFlatIP(embs.shape[1])
     index.add(embs)
@@ -142,7 +171,7 @@ def _build_index(embeddings: np.ndarray) -> faiss.IndexFlatIP:
 def _get_cached_index(
     session_id: str,
     modalities: Optional[list[str]] = None,
-) -> tuple[faiss.IndexFlatIP, list[str], list[dict]]:
+) -> tuple:
     """Return cached index or rebuild it."""
     cache_key = f"{session_id}_{sorted(modalities or [])}"
     cached    = _INDEX_CACHE.get(cache_key)
@@ -186,6 +215,9 @@ def retrieve(
     Returns a list of dicts:
         {text, score, source, modality, chunk_idx, timestamp (optional)}
     """
+    if not _HAS_EMBEDDINGS or not _HAS_NUMPY:
+        raise RuntimeError("ML dependencies not available for retrieval.")
+
     model  = _get_embed_model()
     q_vec  = embed_query(model, query, normalize=True).reshape(1, -1)
     q_norm = _l2_normalize(q_vec)

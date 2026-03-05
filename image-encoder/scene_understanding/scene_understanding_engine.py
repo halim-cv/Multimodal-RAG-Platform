@@ -125,34 +125,61 @@ class SceneUnderstandingEngine:
     - Cascaded tasks (Caption + Phrase Grounding)
     """
     
-    def __init__(self, model_id: str = 'microsoft/Florence-2-base', device: str = 'cuda'):
+    def __init__(self, model_id: str = 'microsoft/Florence-2-base', device: str = 'auto'):
         """
         Initialize the Scene Understanding Engine.
         
         Args:
             model_id: HuggingFace model ID for Florence-2
-            device: Device to run the model on ('cuda' or 'cpu')
+            device: 'auto' (detect best), 'cuda', 'mps', or 'cpu'
         """
         self.model_id = model_id
-        self.device = device
-        self.model = None
+        self.device   = self._resolve_device(device)
+        self.model    = None
         self.processor = None
         self._is_loaded = False
-    
+
+    @staticmethod
+    def _resolve_device(device: str) -> str:
+        """Resolve 'auto' to cuda/mps/cpu, or validate a specific device."""
+        import torch
+        if device == 'auto':
+            if torch.cuda.is_available():
+                return 'cuda'
+            if hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+                return 'mps'
+            return 'cpu'
+        return device
+
     def load(self):
-        """Load the model and processor."""
+        """Load the model and processor on the best available device."""
         if not self._is_loaded:
-            print(f"Loading {self.model_id}...")
+            import torch
+            # float16 only works reliably on CUDA; use float32 for cpu/mps
+            torch_dtype = torch.float16 if self.device == 'cuda' else torch.float32
+            print(f"Loading {self.model_id} on {self.device} ({torch_dtype})...")
             self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id, 
-                trust_remote_code=True, 
-                dtype='auto', 
-                attn_implementation='eager'
+                self.model_id,
+                trust_remote_code=True,
+                torch_dtype=torch_dtype,
+                attn_implementation='eager',
             ).eval().to(self.device)
             self.processor = AutoProcessor.from_pretrained(self.model_id, trust_remote_code=True)
             self._is_loaded = True
-            print("Model loaded successfully!")
+            print(f"Florence-2 loaded successfully on {self.device}.")
         return self
+
+    def unload(self):
+        """Release model weights from GPU/CPU memory."""
+        if self._is_loaded:
+            import torch, gc
+            self.model    = None
+            self.processor = None
+            self._is_loaded = False
+            gc.collect()
+            if self.device == 'cuda':
+                torch.cuda.empty_cache()
+            print("[SceneEngine] Florence-2 unloaded from memory.")
     
     def _ensure_loaded(self):
         """Ensure model is loaded before inference."""
@@ -179,8 +206,12 @@ class SceneUnderstandingEngine:
         else:
             prompt = task_prompt + text_input
         
-        # Run inference
-        inputs = self.processor(text=prompt, images=image, return_tensors="pt").to(self.device, torch.float16)
+        # Run inference — match dtype to what model is loaded as
+        import torch
+        dtype = torch.float16 if self.device == 'cuda' else torch.float32
+        inputs = self.processor(text=prompt, images=image, return_tensors="pt")
+        inputs = {k: v.to(self.device, dtype if v.is_floating_point() else None)
+                  for k, v in inputs.items()}
         
         generated_ids = self.model.generate(
             input_ids=inputs["input_ids"],

@@ -49,16 +49,17 @@ async def lifespan(app: FastAPI):
     print("  Multimodal RAG Platform — Backend Starting")
     print("="*60)
 
-    print("[Startup] Pre-loading E5-base-v2 embedding model…")
+    print("[Startup] Pre-loading E5-small-v2 embedding model…")
     try:
         from backend.services.retrieval_service import _get_embed_model
         _get_embed_model()
-        print("[Startup] ✅ E5-base-v2 ready.")
+        print("[Startup] ✅ E5-small-v2 ready.")
     except Exception as exc:
         print(f"[Startup] ⚠️  Could not pre-load embedding model: {exc}")
-        print("[Startup]    Run Text-encoding/model/code/download_model.py first.")
+        print("[Startup]    The server will still respond to API calls.")
+        print("[Startup]    Upload/retrieval features require ML dependencies.")
 
-    print("[Startup] ✅ Server ready. Visit http://localhost:8000")
+    print(f"[Startup] ✅ Server ready. Visit http://localhost:{os.getenv('BACKEND_PORT', 8000)}")
     print("="*60 + "\n")
 
     yield   # Server runs here
@@ -100,34 +101,42 @@ app.include_router(chat.router)
 app.include_router(eval_router.router)
 
 # ─────────────────────────────────────────────────
-# Serve frontend static files
-# ─────────────────────────────────────────────────
-if _FRONTEND_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(_FRONTEND_DIR)), name="static")
-
-    @app.get("/", include_in_schema=False)
-    async def serve_frontend():
-        return FileResponse(str(_FRONTEND_DIR / "Chat-Page.html"))
-
-# ─────────────────────────────────────────────────
-# Health endpoint
+# Health endpoint (must be BEFORE static mount)
 # ─────────────────────────────────────────────────
 @app.get("/health", tags=["system"])
 async def health():
     """Quick health check — confirms server is up and which models are loaded."""
-    from backend.services.ingestion_service import (
-        _embed_model, _scene_engine, _voice_engine
-    )
+    try:
+        from backend.services import ingestion_service, retrieval_service
+        models_loaded = {
+            "e5_small_v2":   (getattr(ingestion_service, '_embed_model', None) is not None
+                              or getattr(retrieval_service, '_embed_model', None) is not None),
+            "florence_2":    getattr(ingestion_service, '_scene_engine', None) is not None,
+            "whisper_tiny":  getattr(ingestion_service, '_voice_engine', None) is not None,
+        }
+    except Exception:
+        models_loaded = {
+            "e5_small_v2":   False,
+            "florence_2":    False,
+            "whisper_tiny":  False,
+        }
+
     return {
         "status": "ok",
-        "models_loaded": {
-            "e5_base_v2":    _embed_model is not None,
-            "florence_2":    _scene_engine is not None,
-            "whisper_tiny":  _voice_engine is not None,
-        },
+        "models_loaded": models_loaded,
         "llm_provider": os.getenv("LLM_PROVIDER", "gemini"),
         "gemini_model":  os.getenv("GEMINI_MODEL",  "gemini-2.0-flash"),
     }
+
+# ─────────────────────────────────────────────────
+# Serve frontend — MUST be last (catch-all mount at "/")
+# ─────────────────────────────────────────────────
+if _FRONTEND_DIR.exists():
+    @app.get("/", include_in_schema=False)
+    async def serve_frontend():
+        return FileResponse(str(_FRONTEND_DIR / "Chat-Page.html"))
+
+    app.mount("/", StaticFiles(directory=str(_FRONTEND_DIR)), name="frontend-static")
 
 
 # ─────────────────────────────────────────────────
@@ -141,3 +150,4 @@ if __name__ == "__main__":
         port    = int(os.getenv("BACKEND_PORT", 8000)),
         reload  = True,
     )
+

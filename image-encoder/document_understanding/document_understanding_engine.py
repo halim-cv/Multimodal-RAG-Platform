@@ -229,14 +229,30 @@ class DocumentUnderstandingEngine:
             model_path = hf_hub_download(repo_id=self.model_id, filename=self.model_filename)
             self.model = YOLOv10(model=model_path)
             self._is_loaded = True
-            print("Model loaded successfully!")
+            print("DocLayout-YOLO loaded successfully!")
         return self
-    
+
+    def unload(self):
+        """Release DocLayout-YOLO model weights from memory."""
+        if self._is_loaded:
+            import gc
+            self.model = None
+            self._is_loaded = False
+            gc.collect()
+            try:
+                import torch
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+            except Exception:
+                pass
+            print("[DocEngine] DocLayout-YOLO unloaded from memory.")
+
     def _ensure_loaded(self):
         """Ensure model is loaded before inference."""
         if not self._is_loaded:
             self.load()
-    
+
+
     # ==================== DETECTION TASKS ====================
     
     def detect_layout(self, image: Union[Image.Image, np.ndarray]) -> pd.DataFrame:
