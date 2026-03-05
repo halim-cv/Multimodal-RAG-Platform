@@ -1,0 +1,10 @@
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9
+aiofiles>=23.2.1
+pydantic>=2.7.0
+python-dotenv>=1.0.1
+google-genai>=1.66.0
+mlflow>=2.13.0
+rich>=13.0.0
+rouge-score>=0.1.2

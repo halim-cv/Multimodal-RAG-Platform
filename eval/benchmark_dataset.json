@@ -1,0 +1,59 @@
+[
+    {
+        "id": "q1",
+        "query": "What are the main topics discussed in the uploaded documents?",
+        "relevant_sources": [],
+        "expected_keywords": [
+            "main",
+            "topic",
+            "discuss"
+        ]
+    },
+    {
+        "id": "q2",
+        "query": "Can you summarise the key findings or conclusions?",
+        "relevant_sources": [],
+        "expected_keywords": [
+            "finding",
+            "conclusion",
+            "result",
+            "summary"
+        ]
+    },
+    {
+        "id": "q3",
+        "query": "What figures or images are present and what do they show?",
+        "relevant_sources": [],
+        "expected_keywords": [
+            "figure",
+            "image",
+            "show",
+            "diagram",
+            "chart"
+        ]
+    },
+    {
+        "id": "q4",
+        "query": "Are there any numerical results or statistics mentioned?",
+        "relevant_sources": [],
+        "expected_keywords": [
+            "percent",
+            "accuracy",
+            "number",
+            "statistic",
+            "result"
+        ]
+    },
+    {
+        "id": "q5",
+        "query": "What methods or approaches are described?",
+        "relevant_sources": [],
+        "expected_keywords": [
+            "method",
+            "approach",
+            "technique",
+            "algorithm",
+            "model"
+        ]
+    }
+]
