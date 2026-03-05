@@ -7,50 +7,50 @@ This document provides a detailed look into the architecture of the Multimodal R
 ```mermaid
 graph TD
     %% Users and UI
-    User[User / Client UI]
+    User["User / Client UI"]
 
     %% API Layer
-    subgraph API Layer [FastAPI Backend]
-        Router[API Routers]
-        ChatAPI[Chat API]
-        UploadAPI[Upload API]
+    subgraph APILayer ["FastAPI Backend"]
+        Router["API Routers"]
+        ChatAPI["Chat API"]
+        UploadAPI["Upload API"]
     end
 
-    %% Storage & Tracking
-    subgraph Storage & Tracking
-        MLflow[(MLflow Tracking)]
-        Sessions[(Session Storage / mlruns)]
-        FAISS[(FAISS In-Memory Cache)]
+    %% Storage and Tracking
+    subgraph StorageTracking ["Storage & Tracking"]
+        MLflow[("MLflow Tracking")]
+        Sessions[("Session Storage")]
+        FAISS[("FAISS In-Memory Cache")]
     end
 
     %% Ingestion Pipeline
-    subgraph Ingestion Pipeline [Ingestion Service]
-        DocYOLO[DocLayout-YOLO]
-        Florence[Florence-2]
-        Whisper[OpenAI Whisper]
-        E5[intfloat/e5-small-v2]
-        
-        TextProc[Text Processor]
-        ImageProc[Image Processor]
-        AudioProc[Audio Processor]
+    subgraph IngestionPipeline ["Ingestion Service"]
+        DocYOLO["DocLayout-YOLO"]
+        Florence["Florence-2"]
+        Whisper["OpenAI Whisper"]
+        E5["intfloat/e5-small-v2"]
+
+        TextProc["Text Processor"]
+        ImageProc["Image Processor"]
+        AudioProc["Audio Processor"]
     end
 
     %% RAG Pipeline
-    subgraph RAG Pipeline
-        Retriever[Retrieval Service]
-        Generator[Generation Service / Gemini]
-        Evaluator[Eval Module]
+    subgraph RAGPipeline ["RAG Pipeline"]
+        Retriever["Retrieval Service"]
+        Generator["Generation Service / Gemini"]
+        Evaluator["Eval Module"]
     end
 
     %% Connections
     User -->|Upload files| UploadAPI
     User -->|Ask queries| ChatAPI
-    
+
     UploadAPI -->|Queue job| Router
     Router -->|Dispatch| TextProc
     Router -->|Dispatch| ImageProc
     Router -->|Dispatch| AudioProc
-    
+
     TextProc --> E5
     ImageProc --> DocYOLO
     DocYOLO --> Florence
@@ -59,16 +59,16 @@ graph TD
     Whisper --> E5
 
     E5 -->|Save Embeddings| Sessions
-    
+
     ChatAPI --> Retriever
-    Retriever -->|Load & query| FAISS
+    Retriever -->|"Load & query"| FAISS
     FAISS -.->|Lazy load| Sessions
     Retriever -->|Top-K Chunks| Generator
     Generator -->|Streaming Response| ChatAPI
-    
+
     %% Evaluation and MLflow
     Evaluator -->|Log metrics| MLflow
-    Ingestion Pipeline -->|Log job| MLflow
+    E5 -->|Log job| MLflow
     Retriever -->|Log query| MLflow
 ```
 
