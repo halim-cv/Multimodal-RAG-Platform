@@ -64,6 +64,7 @@ async function init() {
         state.currentSessionId = saved;
         elements.sessionSelect.value = saved;
         await loadSessionSources();
+        await loadConversationHistory();
     }
 }
 
@@ -143,11 +144,75 @@ async function switchSession(sessionId) {
         state.currentSessionId = null;
         state.sources = [];
         renderSources();
+        clearChatUI();
         return;
     }
     state.currentSessionId = sessionId;
     localStorage.setItem('currentSessionId', sessionId);
     await loadSessionSources();
+    await loadConversationHistory();
+}
+
+// ============================================
+// Conversation History Persistence
+// ============================================
+function clearChatUI() {
+    if (elements.chatMessages) {
+        elements.chatMessages.innerHTML = '';
+        // Re-add welcome message
+        if (elements.welcomeMessage) {
+            elements.welcomeMessage.style.display = '';
+            elements.chatMessages.appendChild(elements.welcomeMessage);
+        }
+    }
+    if (elements.citationCards) {
+        elements.citationCards.style.display = 'none';
+        elements.citationCards.innerHTML = '';
+    }
+}
+
+async function loadConversationHistory() {
+    if (!state.currentSessionId) return;
+    try {
+        const res = await fetch(`${API_BASE}/api/sessions/${state.currentSessionId}/conversations`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const messages = data.messages || [];
+
+        if (messages.length === 0) return;
+
+        // Hide welcome, clear chat
+        if (elements.welcomeMessage) elements.welcomeMessage.style.display = 'none';
+
+        // Render each saved message
+        for (const msg of messages) {
+            if (msg.role === 'user') {
+                addUserMessage(msg.content);
+            } else if (msg.role === 'assistant') {
+                const aiTextEl = createEmptyAIMessage();
+                renderFinalMarkdown(aiTextEl, msg.content);
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load conversation history:', e);
+    }
+}
+
+async function saveConversationPair(userMessage, assistantMessage, chunks) {
+    if (!state.currentSessionId) return;
+    try {
+        await fetch(`${API_BASE}/api/sessions/${state.currentSessionId}/conversations`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_message: userMessage,
+                assistant_message: assistantMessage,
+                chunks: chunks || null,
+            }),
+        });
+    } catch (e) {
+        console.error('Failed to save conversation:', e);
+    }
 }
 
 async function loadSessionSources() {
@@ -620,6 +685,7 @@ async function sendMessageToAPI(query) {
         const aiTextEl = createEmptyAIMessage();
         let fullText = '';
         let buffer = '';
+        let retrievedChunks = null;
 
         while (true) {
             const { done, value } = await reader.read();
@@ -635,6 +701,7 @@ async function sendMessageToAPI(query) {
                     const event = JSON.parse(line.slice(6));
 
                     if (event.type === 'sources') {
+                        retrievedChunks = event.chunks;
                         renderCitationCards(event.chunks);
                     }
                     if (event.type === 'token') {
@@ -659,6 +726,9 @@ async function sendMessageToAPI(query) {
         if (fullText) {
             renderFinalMarkdown(aiTextEl, fullText);
         }
+
+        // Persist the conversation pair to backend
+        await saveConversationPair(query, fullText, retrievedChunks);
 
     } catch (err) {
         hideTypingIndicator();

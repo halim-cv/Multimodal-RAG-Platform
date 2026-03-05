@@ -31,7 +31,8 @@ load_dotenv()
 # ─────────────────────────────────────────────────
 # Import routers
 # ─────────────────────────────────────────────────
-from backend.routers import sessions, upload, chat, eval_router
+from backend.routers import sessions, upload, chat, eval_router, conversations
+from backend.middleware.auth import APIKeyMiddleware
 
 # ─────────────────────────────────────────────────
 # Paths
@@ -93,12 +94,18 @@ app.add_middleware(
 )
 
 # ─────────────────────────────────────────────────
+# API Key authentication (disabled when RAG_API_KEY is unset)
+# ─────────────────────────────────────────────────
+app.add_middleware(APIKeyMiddleware)
+
+# ─────────────────────────────────────────────────
 # Routers
 # ─────────────────────────────────────────────────
 app.include_router(sessions.router)
 app.include_router(upload.router)
 app.include_router(chat.router)
 app.include_router(eval_router.router)
+app.include_router(conversations.router)
 
 # ─────────────────────────────────────────────────
 # Health endpoint (must be BEFORE static mount)
