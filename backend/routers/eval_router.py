@@ -3,6 +3,7 @@ backend/routers/eval_router.py
 POST /api/evaluate/{session_id}  — run retrieval eval metrics on a session
 """
 
+import re
 import json
 import time
 import asyncio
@@ -12,25 +13,12 @@ from fastapi import APIRouter, HTTPException
 
 from backend.services import retrieval_service, generation_service
 from backend.models.schemas import EvalRequest, EvalResponse, EvalMetrics
+from eval.metrics import mrr_at_k, hit_at_k, precision_at_k
 
 router = APIRouter(prefix="/api/evaluate", tags=["evaluation"])
 
 _PROJECT_ROOT      = Path(__file__).parent.parent.parent
 _BENCHMARK_PATH    = _PROJECT_ROOT / "eval" / "benchmark_dataset.json"
-
-
-def _mrr_at_k(retrieved: list[str], relevant: list[str], k: int) -> float:
-    for rank, src in enumerate(retrieved[:k], 1):
-        if src in relevant:
-            return 1.0 / rank
-    return 0.0
-
-def _hit_at_k(retrieved: list[str], relevant: list[str], k: int) -> float:
-    return float(any(s in relevant for s in retrieved[:k]))
-
-def _precision_at_k(retrieved: list[str], relevant: list[str], k: int) -> float:
-    hits = sum(1 for s in retrieved[:k] if s in relevant)
-    return hits / k
 
 
 @router.post("/{session_id}", response_model=EvalResponse)
@@ -65,9 +53,9 @@ async def evaluate_session(session_id: str, request: EvalRequest = None):
         latencies.append((time.time() - t0) * 1000)
 
         retrieved_srcs = [c["source"] for c in chunks]
-        mrr_sum  += _mrr_at_k(retrieved_srcs, relevant_srcs, top_k)
-        hit_sum  += _hit_at_k(retrieved_srcs, relevant_srcs, top_k)
-        prec_sum += _precision_at_k(retrieved_srcs, relevant_srcs, top_k)
+        mrr_sum  += mrr_at_k(retrieved_srcs, relevant_srcs, top_k)
+        hit_sum  += hit_at_k(retrieved_srcs, relevant_srcs, top_k)
+        prec_sum += precision_at_k(retrieved_srcs, relevant_srcs, top_k)
 
         # Faithfulness (LLM-as-judge) — only for first 3 queries to save API calls
         if benchmark.index(item) < 3:
@@ -80,7 +68,6 @@ async def evaluate_session(session_id: str, request: EvalRequest = None):
                     f"Return ONLY a JSON: {{\"score\": <float>}}"
                 )
                 faith_resp = await generation_service.generate_answer(faith_prompt, [])
-                import re
                 match = re.search(r'"score"\s*:\s*([\d.]+)', faith_resp)
                 faith_sum += float(match.group(1)) if match else 0.5
             except Exception:

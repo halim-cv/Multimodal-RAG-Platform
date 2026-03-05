@@ -2,12 +2,9 @@
 backend/services/generation_service.py
 
 Streaming LLM answer generation using the google-genai SDK.
-Follows the exact SDK pattern tested in test_gemini.py:
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(model=..., contents=...)
 
-Streaming is done by running the synchronous SDK call in a thread and
-chunking the response into tokens for SSE delivery.
+Uses native SDK streaming (generate_content_stream) for true token-by-token
+delivery, with retry logic for transient errors.
 """
 
 import os
@@ -19,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ─────────────────────────────────────────────────
-# Client initialisation  (google.genai — same pattern as test_gemini.py)
+# Client initialisation  (google.genai)
 # ─────────────────────────────────────────────────
 
 _API_KEY  = os.getenv("GEMINI_API_KEY", "")
@@ -118,8 +115,7 @@ def build_rag_prompt(query: str, chunks: list[dict]) -> str:
 
 def _generate_sync(prompt: str) -> str:
     """
-    Call Gemini synchronously — matches the exact pattern in test_gemini.py:
-        client.models.generate_content(model=..., contents=...)
+    Call Gemini synchronously (non-streaming).
     Returns the full response text.
     """
     client = _get_client()
@@ -130,19 +126,30 @@ def _generate_sync(prompt: str) -> str:
     return response.text or ""
 
 
+def _generate_stream_sync(prompt: str):
+    """
+    Call Gemini with native streaming.
+    Yields text chunks as they arrive from the API.
+    """
+    client = _get_client()
+    for chunk in client.models.generate_content_stream(
+        model    = _MODEL_ID,
+        contents = prompt,
+    ):
+        if chunk.text:
+            yield chunk.text
+
+
 # ─────────────────────────────────────────────────
-# Async streaming generator
-# Strategy: run sync generation in a thread, then fake-stream by splitting
-# into sentence/word chunks for a smooth SSE experience.
+# Async streaming generator (native SDK streaming)
 # ─────────────────────────────────────────────────
 
 async def generate_stream(query: str, chunks: list[dict]) -> AsyncGenerator[str, None]:
     """
     Generate a Gemini answer and stream it token-by-token as an async generator.
 
-    Uses the synchronous `client.models.generate_content` in a thread pool
-    (same pattern as test_gemini.py), then yields the result in small chunks
-    for streaming UI effect.
+    Uses the native `generate_content_stream` SDK method for true streaming
+    (real tokens as they're generated, not post-hoc word splitting).
 
     Includes retry logic for transient 503/429 errors.
     """
@@ -151,16 +158,37 @@ async def generate_stream(query: str, chunks: list[dict]) -> AsyncGenerator[str,
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            # Run synchronous Gemini call in a thread (non-blocking)
-            full_text = await asyncio.to_thread(_generate_sync, prompt)
+            # Run the synchronous streaming generator in a thread and
+            # collect chunks via a queue for async yielding.
+            queue: asyncio.Queue[str | None] = asyncio.Queue()
 
-            # Stream the result word-by-word for smooth UI
-            words = full_text.split(" ")
-            for i, word in enumerate(words):
-                yield word + (" " if i < len(words) - 1 else "")
-                # Small delay every 8 words to give the UI time to render
-                if i % 8 == 7:
-                    await asyncio.sleep(0.01)
+            def _stream_to_queue():
+                try:
+                    for text_chunk in _generate_stream_sync(prompt):
+                        queue.put_nowait(text_chunk)
+                finally:
+                    queue.put_nowait(None)  # sentinel
+
+            # Start streaming in a background thread
+            loop = asyncio.get_event_loop()
+            task = loop.run_in_executor(None, _stream_to_queue)
+
+            # Yield chunks as they arrive
+            while True:
+                try:
+                    item = queue.get_nowait()
+                except asyncio.QueueEmpty:
+                    await asyncio.sleep(0.02)
+                    if task.done() and queue.empty():
+                        break
+                    continue
+
+                if item is None:
+                    break
+                yield item
+
+            # Ensure the thread has finished
+            await task
             return  # Success
 
         except Exception as exc:

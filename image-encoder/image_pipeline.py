@@ -80,24 +80,27 @@ def configure_cpu_constraints():
         }
 
 
+_HERE = Path(__file__).parent
+
+
 class ImagePipeline:
     """
     Pipeline for processing documents and images through document and scene understanding engines.
     """
     
-    def __init__(self, input_dir: str = r"C:\Users\Sam-tech\Desktop\Github\Multimodal-RAG-Platform\image-encoder\input", output_dir: str = r"C:\Users\Sam-tech\Desktop\Github\Multimodal-RAG-Platform\image-encoder\output"):
+    def __init__(self, input_dir: str = None, output_dir: str = None):
         """
         Initialize the pipeline.
         
         Args:
-            input_dir: Directory containing input files
-            output_dir: Directory to save output results
+            input_dir: Directory containing input files (defaults to ./input)
+            output_dir: Directory to save output results (defaults to ./output)
         """
         # Configure CPU/GPU constraints before initializing anything else
         self.device_config = configure_cpu_constraints()
         
-        self.input_dir = Path(input_dir)
-        self.output_dir = Path(output_dir)
+        self.input_dir = Path(input_dir) if input_dir else _HERE / "input"
+        self.output_dir = Path(output_dir) if output_dir else _HERE / "output"
         
         # Create output directory if it doesn't exist
         self.output_dir.mkdir(exist_ok=True)

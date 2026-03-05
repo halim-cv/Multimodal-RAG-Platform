@@ -1,8 +1,13 @@
 FROM python:3.10-slim
 WORKDIR /app
-RUN apt-get update && apt-get install -y libsndfile1 ffmpeg && rm -rf /var/lib/apt/lists/*
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install -y libsndfile1 ffmpeg libgl1 && rm -rf /var/lib/apt/lists/*
+COPY backend/requirements.txt                        backend-requirements.txt
+COPY image-encoder/requirements.txt                  image-requirements.txt
+COPY audio-encoder/audio_understanding/requirements.txt audio-requirements.txt
+RUN pip install --no-cache-dir \
+    -r backend-requirements.txt \
+    -r image-requirements.txt \
+    -r audio-requirements.txt
 COPY . .
 EXPOSE 8000
 CMD ["uvicorn", "backend.server:app", "--host", "0.0.0.0", "--port", "8000"]
