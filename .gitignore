@@ -49,3 +49,6 @@ image-encoder/output/
 image-encoder/Folder-simulation/assets/
 image-encoder/Image-simulation/assets/
 audio-encoder/output/
+
+# Media files
+*.mp3

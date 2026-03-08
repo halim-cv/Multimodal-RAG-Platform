@@ -1,6 +1,6 @@
 # Architecture Deep-Dive
 
-This document provides a detailed look into the architecture of the Multimodal RAG Platform, describing how data flows through ingestion, retrieval, and generation phases.
+This document provides a detailed look into the architecture of the Multimodal RAG Platform, describing how data flows through ingestion, retrieval, and generation phases. The entire pipeline is implemented using **PyTorch** for local model inference.
 
 ## Full System Architecture
 

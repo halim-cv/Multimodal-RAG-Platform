@@ -83,7 +83,7 @@ Our platform processes 4 distinct modalities with specialized local models befor
 
 ## Model Cards
 
-The intelligence of the platform is powered by small, efficient open-weights models running **locally** on your hardware.
+The intelligence of the platform is powered by small, efficient open-weights models implemented using **PyTorch** and running **locally** on your hardware.
 
 | Model | Purpose | Why it was chosen |
 |---|---|---|

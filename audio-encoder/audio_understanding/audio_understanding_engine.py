@@ -177,6 +177,9 @@ class VoiceUnderstandingEngine:
             output_offsets=True
         )
         
+        if isinstance(output, dict):
+            output = output.get("text", "")
+            
         chunks = []
         
         # Parse the output to extract timestamp information
